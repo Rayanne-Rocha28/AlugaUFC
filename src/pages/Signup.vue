@@ -21,7 +21,7 @@
           name="txrFullname"
           filled
           v-model="user.name"
-          label="Nome e Sobrenome"
+          label="Nome e Sobrenome *"
           lazy-rules
           :rules="[
             (val) =>
@@ -58,7 +58,7 @@
           filled
           v-model="user.email"
           type="email"
-          label="Email"
+          label="Email *"
           lazy-rules
           :rules="[
             (val) => (val && val.length > 5) || 'Por favor informe o seu email',
@@ -92,13 +92,13 @@
           filled
           :type="isPwd ? 'password' : 'text'"
           v-model="user.password"
-          label="Senha"
+          label="Senha *"
           lazy-rules
           :rules="[
             (val) => !!val || 'Por favor digite sua senha',
             (val) =>
-              (!!val && val !== '' && val.length >= 4) ||
-              'Sua senha deve ter pelo menos 4 caracteres',
+              (!!val && val !== '' && val.length >= 6) ||
+              'Sua senha deve ter pelo menos 6 caracteres',
             (val) => (!!val && val === user.password) || 'Senhas não coincidem',
           ]"
         >
@@ -121,13 +121,13 @@
           filled
           :type="isPwd ? 'password' : 'text'"
           v-model="user.confirmPassword"
-          label="Confirme sua senha"
+          label="Confirme sua senha *"
           lazy-rules
           :rules="[
             (val) => !!val || 'Por favor digite sua senha',
             (val) =>
-              (!!val && val !== '' && val.length >= 4) ||
-              'Sua senha deve ter pelo menos 4 caracteres',
+              (!!val && val !== '' && val.length >= 6) ||
+              'Sua senha deve ter pelo menos 6 caracteres',
             (val) => (!!val && val === user.password) || 'Senhas não coincidem',
           ]"
         >
@@ -178,8 +178,8 @@ export default {
       email: "",
       password: "",
       confirmPassword: "",
-      type: "",
-      gender: "",
+      type: "student",
+      gender: "M",
       name: "",
     });
 
@@ -225,7 +225,7 @@ export default {
           message: "Usuário cadastrado com sucesso!",
           timeout: 1000,
         });
-        this.$router.push("/");
+        this.$router.push("/login");
       } catch (error) {
         notif({
           type: "negative",

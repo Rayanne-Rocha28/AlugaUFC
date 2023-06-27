@@ -60,8 +60,12 @@
         <span>{{ productsFiltered.length }} resultados</span>
       </div>
 
-      <div class="col-md-4 col-sm-6 col-xs-12" v-if="!!products.length">
-        <div v-for="item in productsFiltered" :key="item.id">
+      <div class="col-12 q-col-gutter-md row" v-if="!!products.length">
+        <div
+          class="col-md-4 col-sm-6 col-xs-12 row"
+          v-for="item in productsFiltered"
+          :key="item.id"
+        >
           <q-card class="my-card" flat bordered>
             <q-card-section class="q-pa-none">
               <q-carousel
@@ -113,7 +117,7 @@
 
             <q-separator />
 
-            <q-card-section class="q-pt-md">
+            <q-card-section class="q-pt-md min-height-section-description">
               <div class="text-body1 text-bold">{{ item.description }}</div>
               <div class="text-body2 text-grey-6">
                 <q-icon name="place" color="red" />
@@ -121,9 +125,12 @@
                 {{ item.addressState }}
               </div>
               <div class="text-caption text-justify q-pt-sm">
-                <q-item-label class="text-dark" caption lines="2">{{
-                  item.brief
-                }}</q-item-label>
+                <q-item-label class="text-dark" caption lines="2"
+                  >{{ item.brief }}
+                  <q-tooltip v-if="!!item.brief && item.brief.length > 100">
+                    {{ item.brief }}
+                  </q-tooltip></q-item-label
+                >
               </div>
             </q-card-section>
 
@@ -307,14 +314,7 @@ export default defineComponent({
 
       querySnapshot.forEach(async (e) => {
         const item = e.data();
-        // console.log(item);
-        // const storageReference = storageRef(storage, e.image);
-        // try {
-        //   const url = await getDownloadURL(storageReference);
-        //   console.log(url);
-        // } catch (e) {}
         data.push(item);
-        // console.log(data);
       });
       this.products = data;
 
@@ -350,52 +350,15 @@ export default defineComponent({
   },
   mounted() {
     this.populate();
-    // for (let i = 0; i < 12; i++) {
-    //   this.products.push({
-    //     id: i,
-    //     description: "Casa do Kame" + " " + i,
-    //     address: {
-    //       street: "Rua Caminho do Dragão",
-    //       number: this.getRandomIntInclusive(1, 999),
-    //       bairro: "Centro",
-    //       city: "Russas",
-    //       state: "CE",
-    //     },
-    //     googleMapsURL: "",
-    //     brief:
-    //       "Uma casa muito bonita que pertence a uma pessoa muito legal. Procuro gente para dividir o aluguel.",
-    //     rooms: this.getRandomIntInclusive(1, 6),
-    //     bathrooms: 1,
-    //     sexType: this.getRandomItem(this.SEX_TYPES),
-    //     phone: "(88) 77777-" + this.getRandomIntInclusive(1000, 9999),
-    //     mail: "user@mail.com",
-    //     type: this.getRandomItem(this.PROPOSE_TYPES),
-    //     value: this.getRandomIntInclusive(1, 1500),
-    //     status: this.getRandomItem(this.STATUS_TYPES),
-    //     photos: [],
-    //     clicksCount: 0,
-    //   });
-    // }
-    // this.products = this.products.map((v) => ({
-    //   ...v,
-    //   bathrooms: this.getRandomIntInclusive(1, v.rooms),
-    //   photos:
-    //     this.getRandomIntInclusive(0, 1) === 1
-    //       ? [
-    //           "https://place-hold.it/250x170",
-    //           "https://place-hold.it/250x170",
-    //           "https://place-hold.it/250x170",
-    //         ]
-    //       : [],
-    //   slide: 0,
-    // }));
-    // this.productsFiltered = this.products;
-    // if (!!this.$route.query && !!this.$route.query.search) {
-    //   this.search = this.$route.query.search;
-    //   this.filter();
-    // }
   },
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.my-card {
+  height: fit-content;
+}
+.min-height-section-description {
+  min-height: 114px;
+}
+</style>

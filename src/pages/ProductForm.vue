@@ -26,7 +26,7 @@
           name="adTitle"
           filled
           v-model="adV2.description"
-          label="Titulo do anúncio"
+          label="Titulo do anúncio *"
           lazy-rules
           :rules="[
             (val) =>
@@ -44,7 +44,7 @@
           name="adAddressStreet"
           filled
           v-model="adV2.addressStreet"
-          label="Rua"
+          label="Rua *"
           lazy-rules
           :rules="[
             (val) => (val && val.length > 3) || 'Por favor insira a rua',
@@ -61,7 +61,7 @@
           name="adAddressNumber"
           filled
           v-model="adV2.addressNumber"
-          label="Número"
+          label="Número *"
           lazy-rules
           :rules="[
             (val) =>
@@ -79,7 +79,7 @@
           name="adAddressDistrict"
           filled
           v-model="adV2.addressDistrict"
-          label="Bairro"
+          label="Bairro *"
           lazy-rules
           :rules="[
             (val) => (val && val.length > 3) || 'Por favor insira o bairro',
@@ -97,7 +97,7 @@
           filled
           type="number"
           v-model="adV2.bedrooms"
-          label="Quartos"
+          label="Quartos *"
           lazy-rules
           mask="##"
           :rules="[
@@ -117,7 +117,7 @@
           filled
           type="number"
           v-model="adV2.bathrooms"
-          label="Banheiros"
+          label="Banheiros *"
           mask="##"
           lazy-rules
           :rules="[
@@ -217,7 +217,7 @@
           name="adValue"
           filled
           v-model="adV2.value"
-          label="Valor"
+          label="Valor *"
           prefix="R$"
           lazy-rules
           mask="#.##"
@@ -235,7 +235,7 @@
           name="adMail"
           filled
           v-model="adV2.mail"
-          label="Email de contato"
+          label="Email de contato *"
           lazy-rules
           :rules="[
             (val) => (val && val.length > 3) || 'Por favor insira o email',
@@ -252,11 +252,11 @@
           name="adPhone"
           filled
           v-model="adV2.phone"
-          label="Telefone de contato"
+          label="Telefone de contato *"
           mask="(##) #####-####"
           lazy-rules
           :rules="[
-            (val) => (val && val.length > 3) || 'Por favor insira o telefone',
+            (val) => (val && val.length > 13) || 'Por favor insira o telefone',
           ]"
         >
           <template v-slot:prepend>
@@ -274,7 +274,7 @@
           accept=".jpg, .jpeg, .png"
           @rejected="onRejected"
           :rules="[(val) => true]"
-          label="Imagem"
+          label="Fotos"
         >
           <template v-slot:prepend>
             <q-icon name="image" />
@@ -286,7 +286,7 @@
           name="aluDescription"
           filled
           v-model="adV2.brief"
-          label="Descrição"
+          label="Descrição *"
           lazy-rules
           type="textarea"
           :rules="[(val) => (val) => true]"
@@ -371,7 +371,7 @@ export default {
           const docRef = await addDoc(collection(db, "adsV2"), {
             ...this.adV2,
             photos: img,
-            cover: img[0],
+            cover: img[0] || "",
             userId: getAuthUser().id,
           });
           notif({
@@ -391,17 +391,18 @@ export default {
     },
     async uploadImage(event) {
       const images = [];
-      for (let img of event) {
-        try {
-          const file = img;
-          const ref = storageRef(this.storage, `images/${file.name}`);
-          const snapshot = await uploadBytes(ref, file);
-          const uri = await getDownloadURL(snapshot.ref);
-          images.push(uri);
-        } catch (error) {
-          console.error("Erro ao enviar imagem:", error);
+      if (!!event && event.length > 0)
+        for (let img of event) {
+          try {
+            const file = img;
+            const ref = storageRef(this.storage, `images/${file.name}`);
+            const snapshot = await uploadBytes(ref, file);
+            const uri = await getDownloadURL(snapshot.ref);
+            images.push(uri);
+          } catch (error) {
+            console.error("Erro ao enviar imagem:", error);
+          }
         }
-      }
       return images;
     },
   },
