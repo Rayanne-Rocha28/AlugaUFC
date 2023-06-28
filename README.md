@@ -2,7 +2,7 @@
 
 Sistema para encontrar colegas para dividir AP
 
-## Live demo AlugaUFC [Configuring quasar.config.js](https://aluga-ufc.web.app/#/).
+## Live demo [Aluga UFC](https://aluga-ufc.web.app/#/).
 ```bash
 https://aluga-ufc.web.app/#/
 ```
