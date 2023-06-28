@@ -163,7 +163,7 @@
 import { ref } from "vue";
 import { getAuth } from "firebase/auth";
 import { app, db } from "app/firebaseConfig";
-import { doc, updateDoc, collection } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { isAuthenticated, getAuthUser } from "../utils/authentication";
 
 export default {
@@ -201,7 +201,7 @@ export default {
       this.loading = true;
       const notif = this.$q.notify({
         type: "ongoing",
-        message: "Registrando usuário, aguarde...",
+        message: "Atualizando usuário, aguarde...",
       });
       try {
         const docRef = await updateDoc(
@@ -211,7 +211,7 @@ export default {
 
         notif({
           type: "positive",
-          message: "Usuário cadastrado com sucesso!",
+          message: "Usuário atualizado com sucesso!",
           timeout: 1000,
         });
 
@@ -220,10 +220,10 @@ export default {
       } catch (error) {
         notif({
           type: "negative",
-          message: "Ocorreu um erro durante o cadastro!",
+          message: "Ocorreu um erro durante o salvamento!",
           timeout: 1000,
         });
-        console.error("Erro ao cadastrar usuário:", error.message);
+        console.error("Erro ao atualizar usuário:", error.message);
         this.loading = false;
       }
     },

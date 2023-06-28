@@ -35,7 +35,12 @@
           @keyup.enter="submit"
         >
           <template v-slot:append>
-            <q-btn round icon="search" unelevated to="/products" />
+            <q-btn round icon="search" unelevated @click="submit" />
+          </template>
+          <template v-slot:after>
+            <q-btn round icon="menu" color="primary" to="/products">
+              <q-tooltip> Ver todos </q-tooltip>
+            </q-btn>
           </template>
         </q-input>
       </div>
@@ -64,11 +69,10 @@ export default defineComponent({
 
   methods: {
     submit() {
-      if (!!this.search)
-        this.$router.push({
-          path: "/products",
-          query: { search: this.search },
-        });
+      this.$router.push({
+        path: "/products",
+        query: { search: this.search },
+      });
     },
   },
 });

@@ -407,8 +407,10 @@ export default {
     },
   },
   mounted() {
-    if (this.isAuthenticated()) this.user = this.getAuthUser();
-    else this.$router.push("/login");
+    if (this.isAuthenticated()) {
+      this.user = this.getAuthUser();
+      this.adV2.mail = this.user.email;
+    } else this.$router.push("/login");
   },
 };
 </script>

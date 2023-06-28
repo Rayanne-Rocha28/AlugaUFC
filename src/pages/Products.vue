@@ -190,13 +190,14 @@
 <script>
 import { useQuasar } from "quasar";
 import { defineComponent, ref, computed } from "vue";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
-import { app } from "app/firebaseConfig";
 import {
-  getDownloadURL,
-  getStorage,
-  ref as storageRef,
-} from "firebase/storage";
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import { app } from "app/firebaseConfig";
 
 export default defineComponent({
   name: "ProductsPage",
@@ -307,15 +308,15 @@ export default defineComponent({
   methods: {
     async populate() {
       const db = getFirestore(app);
-      const storage = getStorage(app);
       const adsCollection = collection(db, "adsV2");
-      const querySnapshot = await getDocs(adsCollection);
       const data = [];
+      const myQuery = query(adsCollection, where("status", "==", "OPEN"));
 
-      querySnapshot.forEach(async (e) => {
-        const item = e.data();
-        data.push(item);
-      });
+      const querySnapshot = await getDocs(myQuery);
+      if (!querySnapshot.empty)
+        querySnapshot.forEach((item) => {
+          data.push({ ...item.data(), id: item.id });
+        });
       this.products = data;
 
       this.products = this.products.map((v) => ({
@@ -343,7 +344,10 @@ export default defineComponent({
             : true) &&
           (!!this.search
             ? p.description.toLowerCase().includes(this.search.toLowerCase()) ||
-              p.brief.toLowerCase().includes(this.search.toLowerCase())
+              p.brief.toLowerCase().includes(this.search.toLowerCase()) ||
+              p.addressDistrict
+                .toLowerCase()
+                .includes(this.search.toLowerCase())
             : true)
       );
     },

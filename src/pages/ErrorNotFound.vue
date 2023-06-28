@@ -5,7 +5,9 @@
     <div>
       <div style="font-size: 30vh">404</div>
 
-      <div class="text-h2" style="opacity: 0.4">Oops. Nothing here...</div>
+      <div class="text-h4" style="opacity: 0.4">
+        Ops... Parece que a página que você está buscando não existe.
+      </div>
 
       <q-btn
         class="q-mt-xl"
@@ -13,7 +15,7 @@
         text-color="primary"
         unelevated
         to="/"
-        label="Go Home"
+        label="Ir para página principal"
         no-caps
       />
     </div>

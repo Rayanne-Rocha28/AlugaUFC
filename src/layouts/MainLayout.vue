@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import {
   isAuthenticated,
   logoutUser,
@@ -112,7 +112,7 @@ export default defineComponent({
       getAuthUser,
       logout() {
         logoutUser();
-        this.$router.push("/redirect");
+        this.$router.push(`/redirect/to/${encodeURIComponent("/")}`);
       },
     };
   },
