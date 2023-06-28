@@ -15,11 +15,11 @@
           name="ufcUsername"
           filled
           v-model="email"
-          label="Usuário"
+          label="E-mail"
           lazy-rules
           :rules="[
             (val) =>
-              (val && val.length > 3) || 'Por favor informe o seu usuário',
+              (val && val.length > 3) || 'Por favor informe o seu E-email',
           ]"
         >
           <template v-slot:prepend>
